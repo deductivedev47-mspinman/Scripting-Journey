@@ -1,3 +1,0 @@
-local GoodScript = {}
-
-return GoodScript
