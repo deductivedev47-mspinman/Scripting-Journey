@@ -1,0 +1,3 @@
+local GoodScript = {}
+
+return GoodScript
