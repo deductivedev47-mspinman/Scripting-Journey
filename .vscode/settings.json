@@ -1,0 +1,4 @@
+{
+    "luau-lsp.sourcemap.autogenerate": true,
+    "luau-lsp.sourcemap.enabled": true
+}

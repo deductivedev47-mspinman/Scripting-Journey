@@ -23,7 +23,59 @@ local UI = {}
 function UI.MainUI()
 	return {
 		Frame({
-			Name = "Nate",
+			Name = "HomeScreenUI",
+			Size = UDim2.fromScale(0.2, 0.65),
+			Position = UDim2.fromScale(0.2, 0.5),
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			BackgroundTransparency = 1,
+
+			UIListLayout({
+				Padding = UDim.new(0.1, 0),
+				VerticalAlignment = Enum.VerticalAlignment.Center,
+				FillDirection = Enum.FillDirection.Vertical,
+				HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			}),
+
+			ImageLabel({
+				Name = "Title",
+				Image = "rbxassetid://82089064031617",
+				Size = UDim2.fromScale(1, 0.08),
+				Position = UDim2.fromScale(0.5, 0.15),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+			}),
+
+			ImageLabel({
+				Name = "Play",
+				Image = "rbxassetid://87351437959095",
+				Size = UDim2.fromScale(0.6, 0.08),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+			}),
+
+			ImageLabel({
+				Name = "Shop",
+				Image = "rbxassetid://82309007576845",
+				Size = UDim2.fromScale(0.6, 0.08),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+			}),
+
+			ImageLabel({
+				Name = "Inventory",
+				Image = "rbxassetid://127187451678895",
+				Size = UDim2.fromScale(0.6, 0.08),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+			}),
+
+			ImageLabel({
+				Name = "Credits",
+				Image = "rbxassetid://78360608765452",
+				Size = UDim2.fromScale(0.6, 0.08),
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
+			}),
 		}),
 	}
 end
@@ -31,6 +83,7 @@ end
 function UI.LoadingAssets()
 	local loaded = source(0)
 	local total = source(0)
+	local skipToggle = source(false)
 
 	local ani = source(1)
 
@@ -41,26 +94,31 @@ function UI.LoadingAssets()
 		for i, obj in assets do
 			ContentProvider:PreloadAsync({ obj })
 			loaded(i)
+			if i >= 400 then
+				skipToggle(true)
+			end
+
 			task.wait()
 		end
-		local des = Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen")
-		des:Destroy()
+		Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen"):Destroy()
+		Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
 	end)
 
 	local function LOADINGUI()
-		local ani_spring = spring(ani, 0.8, 1)
+		local ani_spring = spring(ani, 0.3, 1)
 
 		return {
 			ImageLabel({
 				Name = "LoadingScreen",
-				Image = "rbxassetid://78042065722560",
-				Size = UDim2.fromScale(1, 1),
+				Image = "rbxassetid://94294209286544",
+				Size = UDim2.fromScale(1, 1.25),
 				Position = UDim2.fromScale(0.5, 0.5),
 				AnchorPoint = Vector2.new(0.5, 0.5),
+				BackgroundTransparency = 1,
 
 				TextLabel({
 					Size = UDim2.fromScale(0.10, 0.1),
-					Position = UDim2.fromScale(0.9, 0.9),
+					Position = UDim2.fromScale(0.9, 0.8),
 					AnchorPoint = Vector2.new(0.5, 0.5),
 					Text = function()
 						return loaded() .. "/" .. total()
@@ -71,26 +129,24 @@ function UI.LoadingAssets()
 
 					UIStroke({
 						Thickness = 1,
-						Color = Color3.fromRGB(175, 255, 164),
+						Color = Color3.fromRGB(255, 255, 255),
 					}),
 				}),
 			}),
 			ImageButton({
 				Name = "SKIP?",
-				Image = "rbxassetid://82079270614432",
-				Size = UDim2.fromOffset(120, 40),
-				Position = UDim2.fromScale(0.5, 0.9),
+				Image = "rbxassetid://113357488855196",
+				Size = UDim2.fromScale(0.12, 0.07),
+				Position = UDim2.fromScale(0.5, 0.8),
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				BackgroundTransparency = 1,
-				Visible = function()
-					return loaded() >= 500
-				end,
+				Visible = skipToggle,
 				Activated = function()
 					Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen"):Destroy()
 					Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
 				end,
 				MouseEnter = function()
-					ani(1.2)
+					ani(1.25)
 				end,
 				MouseLeave = function()
 					ani(1)
