@@ -30,7 +30,7 @@ end
 
 function UI.LoadingAssets()
 	local animation = source(0)
-	local spring = spring(animation, 0.5, 1)
+	local ani = spring(animation, 0.5, 1)
 	local loaded = source(0)
 	local total = source(0)
 
@@ -87,6 +87,16 @@ function UI.LoadingAssets()
 					Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen"):Destroy()
 					Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
 				end,
+				MouseEnter = function()
+					animation(1.2)
+				end,
+				MouseLeave = function()
+					animation(1)
+				end,
+
+				UIScale({
+					Scale = ani,
+				}),
 			}),
 		}
 	end
