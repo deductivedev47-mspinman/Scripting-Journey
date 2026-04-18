@@ -29,10 +29,10 @@ function UI.MainUI()
 end
 
 function UI.LoadingAssets()
-	local animation = source(0)
-	local ani = spring(animation, 0.5, 1)
 	local loaded = source(0)
 	local total = source(0)
+
+	local ani = source(1)
 
 	local assets = game:GetDescendants()
 	total(#assets)
@@ -48,6 +48,8 @@ function UI.LoadingAssets()
 	end)
 
 	local function LOADINGUI()
+		local ani_spring = spring(ani, 0.8, 1)
+
 		return {
 			ImageLabel({
 				Name = "LoadingScreen",
@@ -88,14 +90,14 @@ function UI.LoadingAssets()
 					Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
 				end,
 				MouseEnter = function()
-					animation(1.2)
+					ani(1.2)
 				end,
 				MouseLeave = function()
-					animation(1)
+					ani(1)
 				end,
 
 				UIScale({
-					Scale = ani,
+					Scale = ani_spring,
 				}),
 			}),
 		}
