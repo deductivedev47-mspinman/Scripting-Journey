@@ -100,8 +100,12 @@ function UI.LoadingAssets()
 
 			task.wait()
 		end
-		Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen"):Destroy()
-		Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
+		local loadingScreenUI = Players.LocalPlayer.PlayerGui.HomeScreen.LoadingScreen
+		local skioUI = Players.LocalPlayer.PlayerGui.HomeScreen["SKIP?"]
+		if loadingScreenUI or skioUI then
+			Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("LoadingScreen"):Destroy()
+			Players.LocalPlayer.PlayerGui:WaitForChild("HomeScreen"):WaitForChild("SKIP?"):Destroy()
+		end
 	end)
 
 	local function LOADINGUI()
