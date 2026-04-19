@@ -21,15 +21,16 @@ function GunSystemClient:ArmModel(toggle: boolean)
 		if workspace.Camera:FindFirstChild("ViewModel") then
 			return
 		end
-		local vm: Model = self.VMContainer.ViewModel:Clone()
+
+		local vm = self.VMContainer.ViewModel:Clone()
 		vm.Parent = self.CurCamera
 		local ofCam = CFrame.new(0, 0, 0)
 
 		local function VMFOLLOWCAMERA()
-			if not workspace.Camera:FindFirstChild("ViewModel") or not vm or not vm.PrimaryPart then
+			if not workspace.Camera:FindFirstChild("ViewModel") or not vm:FindFirstChild("HumanoidRootPart") then
 				return
 			end
-			vm:SetPrimaryPartCFrame(self.CurCamera.CFrame * ofCam + Vector3.new(0, -0.9, 0))
+			vm.HumanoidRootPart.CFrame = self.CurCamera.CFrame * ofCam + Vector3.new(0, -0.9, 0)
 		end
 		RunService.RenderStepped:Connect(VMFOLLOWCAMERA)
 	else
