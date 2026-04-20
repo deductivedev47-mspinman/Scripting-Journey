@@ -52,12 +52,16 @@ function GunSystemClient:MonitorCamera(player)
 			end
 		else
 			self:ArmModel(false)
-			for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
-				if instances:IsA("BasePart") then
-					if instances.Transparency == 0 then
-						instances.Transparency = 1
+			if workspace.Camera:FindFirstChild("ViewModel") then
+				for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
+					if instances:IsA("BasePart") then
+						if instances.Transparency == 0 then
+							instances.Transparency = 1
+						end
 					end
 				end
+			else
+				print("No ViewModel Yet")
 			end
 		end
 	end
