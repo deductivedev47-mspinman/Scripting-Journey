@@ -18,7 +18,7 @@ end
 
 function GunSystemClient:ArmModel(toggle: boolean)
 	if toggle then
-		if workspace.Camera:FindFirstChild("ViewModel") then
+		if workspace.Camera:FindFirstChild("ViewModel") then --> Prevents from cloning multiple ViewModels
 			return
 		end
 
@@ -30,13 +30,9 @@ function GunSystemClient:ArmModel(toggle: boolean)
 			if not workspace.Camera:FindFirstChild("ViewModel") or not vm:FindFirstChild("HumanoidRootPart") then
 				return
 			end
-			vm.HumanoidRootPart.CFrame = self.CurCamera.CFrame * ofCam + Vector3.new(0, -0.9, 0)
+			vm.HumanoidRootPart.CFrame = self.CurCamera.CFrame * ofCam + Vector3.new(0, 0, 0)
 		end
 		RunService.RenderStepped:Connect(VMFOLLOWCAMERA)
-	else
-		if workspace.Camera:FindFirstChild("ViewModel") then
-			workspace.Camera.ViewModel:Destroy()
-		end
 	end
 end
 
@@ -47,8 +43,22 @@ function GunSystemClient:MonitorCamera(player)
 		local attribute = camera:GetAttribute("Enabled")
 		if attribute then
 			self:ArmModel(true)
+			for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
+				if instances:IsA("BasePart") then
+					if instances.Transparency == 1 then
+						instances.Transparency = 0
+					end
+				end
+			end
 		else
 			self:ArmModel(false)
+			for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
+				if instances:IsA("BasePart") then
+					if instances.Transparency == 0 then
+						instances.Transparency = 1
+					end
+				end
+			end
 		end
 	end
 
