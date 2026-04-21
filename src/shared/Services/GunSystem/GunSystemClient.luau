@@ -45,9 +45,7 @@ function GunSystemClient:MonitorCamera(player)
 			self:ArmModel(true)
 			for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
 				if instances:IsA("BasePart") then
-					if instances.Transparency == 1 then
-						instances.Transparency = 0
-					end
+					instances.Transparency = 0
 				end
 			end
 		else
@@ -55,9 +53,7 @@ function GunSystemClient:MonitorCamera(player)
 			if workspace.Camera:FindFirstChild("ViewModel") then
 				for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
 					if instances:IsA("BasePart") then
-						if instances.Transparency == 0 then
-							instances.Transparency = 1
-						end
+						instances.Transparency = 1
 					end
 				end
 			else
