@@ -11,69 +11,12 @@ function GunSystemClient.init(player: Player)
 	self.VMContainer = game.ReplicatedStorage.Assets.Gun
 	self.CurCamera = workspace.CurrentCamera
 
-	self:MonitorCamera(player)
-
 	return self
 end
 
-function GunSystemClient:ArmModel(toggle: boolean)
-	if toggle then
-		if workspace.Camera:FindFirstChild("ViewModel") then --> Prevents from cloning multiple ViewModels
-			return
-		end
+function GunSystemClient:ArmModel(toggle: boolean) end
 
-		local vm = self.VMContainer.ViewModel:Clone()
-		vm.Parent = self.CurCamera
-		local ofCam = CFrame.new(0, 0, 0)
-
-		local function VMFOLLOWCAMERA()
-			if not workspace.Camera:FindFirstChild("ViewModel") or not vm:FindFirstChild("HumanoidRootPart") then
-				return
-			end
-			vm.HumanoidRootPart.CFrame = self.CurCamera.CFrame * ofCam + Vector3.new(0, 0, 0)
-		end
-		RunService.RenderStepped:Connect(VMFOLLOWCAMERA)
-	end
-end
-
-function GunSystemClient:MonitorCamera(player)
-	local camera = workspace.Camera
-
-	local function ToggleArmModel()
-		local attribute = camera:GetAttribute("Enabled")
-		if attribute then
-			self:ArmModel(true)
-			for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
-				if instances:IsA("BasePart") then
-					instances.Transparency = 0
-				end
-			end
-		else
-			self:ArmModel(false)
-			if workspace.Camera:FindFirstChild("ViewModel") then
-				for _, instances in workspace.Camera:FindFirstChild("ViewModel"):GetChildren() do
-					if instances:IsA("BasePart") then
-						instances.Transparency = 1
-					end
-				end
-			else
-				print("No ViewModel Yet")
-			end
-		end
-	end
-
-	camera:GetAttributeChangedSignal("Enabled"):Connect(ToggleArmModel)
-
-	RunService.RenderStepped:Connect(function()
-		self.Character = player.Character or player.CharacterAdded:Wait()
-		self.CameraPos = (self.CurCamera.CFrame.Position - self.Character.Head.Position).Magnitude
-		if self.CameraPos >= 0.9 then
-			camera:SetAttribute("Enabled", false)
-			return
-		end
-		camera:SetAttribute("Enabled", true)
-	end)
-end
+function GunSystemClient:MonitorCamera(player) end
 
 GunSystemClient.init(Players.LocalPlayer)
 
